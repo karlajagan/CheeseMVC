@@ -11,7 +11,7 @@ namespace CheeseMVC.Controllers
     public class CheeseController : Controller
     {
         static private Dictionary<string, string> Cheeses = new Dictionary<string, string>();
-        
+       
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -32,18 +32,39 @@ namespace CheeseMVC.Controllers
             return Redirect("/Cheese");
         }
 
+        public IActionResult Delete()
+        {
+            ViewBag.cheeses = Cheeses;
+
+            return View();
+        }
 
         [HttpPost]
-        [Route("/Cheese/Delete")]
-        public IActionResult DeleteCheese(Dictionary<string, string> theCheeses)
+        [Route("/Cheese/DeleteSelected")]
+        public IActionResult DeleteSelected(string[] cheeseSelect)
         {
-            int totalDelete = theCheeses.Count;
-            foreach (KeyValuePair<string,string> cheese in theCheeses )
+            
+            foreach (string cheese in cheeseSelect)           
             {
-                theCheeses.Remove(cheese.Key);
+                    Cheeses.Remove(cheese);
             }
 
-            
+            ViewBag.cheeses = Cheeses;           
+            return Redirect("/Cheese");
+        }
+
+        [HttpPost]
+        [Route("/Cheese/DeleteAll")]
+        public IActionResult DeleteAll(string[] cheeseSelect)
+        {
+            Dictionary<string, string> cheeseList = new Dictionary<string, string>(Cheeses);
+
+            foreach (KeyValuePair<string, string> cheese in cheeseList)
+            {
+                Cheeses.Remove(cheese.Key);
+            }
+
+            ViewBag.cheeses = Cheeses;
             return Redirect("/Cheese");
         }
     }

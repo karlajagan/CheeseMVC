@@ -1,0 +1,19 @@
+﻿@{
+}
+@if (ViewBag.Cheeses.Count == 0)
+{
+    <p>There are no cheeses in the list!</p>
+}
+    <form method="post">
+        <ul>
+            @foreach (KeyValuePair<string, string> cheese in ViewBag.cheeses)
+            {
+                <div>
+                    <label for="@cheese.Key">@cheese.Key  @cheese.Value</label>
+                    <input type="checkbox" id="@cheese.Key" value="@cheese.Key" name="cheeseSelect" />
+                </div>
+            }
+        </ul>
+        <input type="submit" value="Delete Selected" formaction="DeleteSelected" />
+        <input type="submit" value="Delete All" formaction="DeleteAll"/>
+    </form>

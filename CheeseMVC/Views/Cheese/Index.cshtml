@@ -3,7 +3,9 @@
 
 <h1>My Cheese</h1>
 
-<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
+@*<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
+<p><a asp-controller="Cheese" asp-action="Delete">Delete Cheese</a></p>*@
+
 
 @if (ViewBag.Cheeses.Count == 0)
 {
@@ -13,17 +15,6 @@
 <ul>
     @foreach (KeyValuePair<string, string> cheese in ViewBag.cheeses)
     {
-        <div>
-            <label for="@cheese.Key">@cheese.Key  @cheese.Value</label>
-            <input type="checkbox" id="@cheese.Key" value="@cheese.Key" />
-        </div>
+        <p>@cheese.Key  @cheese.Value</p>
     }
 </ul>
-
-@*<button type="button">Mark all</button>*@
-<button type="button" onclick="deleteCheese()" >Delete all</button>
-
-
-/*now I have to take the values of the button or have another button at the
-button that deletes all*/
-
