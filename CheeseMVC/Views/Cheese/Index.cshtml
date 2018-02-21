@@ -7,14 +7,14 @@
 <p><a asp-controller="Cheese" asp-action="Delete">Delete Cheese</a></p>*@
 
 
-@if (ViewBag.Cheeses.Count == 0)
+@if (ViewBag.cheeses.Count == 0)
 {
     <p>There are no cheeses in the list!</p>
 }
 
 <ul>
-    @foreach (KeyValuePair<string, string> cheese in ViewBag.cheeses)
+    @foreach (Cheese cheese in ViewBag.cheeses)
     {
-        <p>@cheese.Key  @cheese.Value</p>
+        <p>@cheese.Name  @cheese.Description</p>
     }
 </ul>

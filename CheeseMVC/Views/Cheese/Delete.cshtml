@@ -11,11 +11,11 @@
     to delete all just press Button Delete All</p>
     <form method="post">
         <ul>
-            @foreach (KeyValuePair<string, string> cheese in ViewBag.cheeses)
+            @foreach (Cheese thischeese in ViewBag.cheeses)
             {
                 <div>
-                    <label for="@cheese.Key">@cheese.Key  @cheese.Value</label>
-                    <input type="checkbox" id="@cheese.Key" value="@cheese.Key" name="cheeseSelect" />
+                    <label for="@thischeese.Name">@thischeese.Name  @thischeese.Description</label>
+                    <input type="checkbox" id="@thischeese.Name" value="@thischeese.Name" name="cheeseSelect" />
                 </div>
             }
         </ul>

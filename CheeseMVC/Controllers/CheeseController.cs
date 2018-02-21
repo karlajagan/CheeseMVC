@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CheeseMVC.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,13 +11,14 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        static private Dictionary<string, string> Cheeses = new Dictionary<string, string>();
+        public static List<Cheese> cheeses = new List<Cheese>();
+        //static private Dictionary<string, string> Cheeses = new Dictionary<string, string>();
        
         // GET: /<controller>/
         public IActionResult Index()
         {
             
-            ViewBag.cheeses = Cheeses;
+            ViewBag.cheeses = cheeses;
             return View();
         }
         public IActionResult Add()
@@ -28,13 +30,14 @@ namespace CheeseMVC.Controllers
         [Route("/Cheese/Add")]
         public IActionResult NewCheese(string name, string description)
         {
-            Cheeses.Add(name, description);
+            Cheese cheese = new Cheese(name, description);
+            cheeses.Add(cheese);
             return Redirect("/Cheese");
         }
 
         public IActionResult Delete()
         {
-            ViewBag.cheeses = Cheeses;
+            ViewBag.cheeses = cheeses;
 
             return View();
         }
@@ -43,13 +46,20 @@ namespace CheeseMVC.Controllers
         [Route("/Cheese/DeleteSelected")]
         public IActionResult DeleteSelected(string[] cheeseSelect)
         {
-            
-            foreach (string cheese in cheeseSelect)           
+
+            foreach  (Cheese cheesepiece in cheeses.ToList())         
             {
-                    Cheeses.Remove(cheese);
+                foreach (string cheeseName in cheeseSelect) 
+                {
+                    if (cheesepiece.Name == cheeseName)
+                    {
+                        cheeses.Remove(cheesepiece);
+                    }
+                }
             }
 
-            ViewBag.cheeses = Cheeses;           
+            ViewBag.cheeses = cheeses;           
+
             return Redirect("/Cheese");
         }
 
@@ -57,14 +67,14 @@ namespace CheeseMVC.Controllers
         [Route("/Cheese/DeleteAll")]
         public IActionResult DeleteAll(string[] cheeseSelect)
         {
-            Dictionary<string, string> cheeseList = new Dictionary<string, string>(Cheeses);
+            List<Cheese> cheeseList = new List<Cheese>(cheeses);
 
-            foreach (KeyValuePair<string, string> cheese in cheeseList)
+            foreach (Cheese cheese in cheeseList)
             {
-                Cheeses.Remove(cheese.Key);
+                cheeses.Remove(cheese);
             }
 
-            ViewBag.cheeses = Cheeses;
+            ViewBag.cheeses = cheeses;
             return Redirect("/Cheese");
         }
     }
