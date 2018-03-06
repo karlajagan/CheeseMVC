@@ -1,11 +1,9 @@
-﻿@{
-}
+﻿<h1>@ViewBag.Title</h1>
+
 @if (ViewBag.Cheeses.Count == 0)
 {
     <p>There are no cheeses in the list!</p>
 }
-
-    <h1>Delete Cheeses</h1>
 
 <p>To select some mark them on the right side and press button Delete Selected,
     to delete all just press Button Delete All</p>
@@ -13,10 +11,10 @@
         <ul>
             @foreach (Cheese thischeese in ViewBag.cheeses)
             {
-                <div>
-                    <label for="@thischeese.Name">@thischeese.Name  @thischeese.Description</label>
-                    <input type="checkbox" id="@thischeese.Name" value="@thischeese.Name" name="cheeseSelect" />
-                </div>
+            <div>
+                <input type="checkbox" id="@thischeese.CheeseId" value="@thischeese.CheeseId" name="cheeseSelect" />
+                <label for="@thischeese.CheeseId">@thischeese.Name  @thischeese.Description</label>
+            </div>
             }
         </ul>
         <input type="submit" value="Delete Selected" formaction="DeleteSelected" />

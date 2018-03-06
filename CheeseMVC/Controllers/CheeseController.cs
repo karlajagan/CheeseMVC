@@ -11,55 +11,48 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        public static List<Cheese> cheeses = new List<Cheese>();
-        //static private Dictionary<string, string> Cheeses = new Dictionary<string, string>();
        
         // GET: /<controller>/
         public IActionResult Index()
         {
-            
-            ViewBag.cheeses = cheeses;
+
+
+            ViewBag.Title = "List of Cheeses";
+            ViewBag.cheeses = CheeseData.GetAll();
             return View();
         }
         public IActionResult Add()
         {
+            ViewBag.Title = "Add Cheese";
             return View(); 
         }
 
         [HttpPost]
         [Route("/Cheese/Add")]
-        public IActionResult NewCheese(string name, string description)
-        {
-            Cheese cheese = new Cheese(name, description);
-            cheeses.Add(cheese);
+        public IActionResult NewCheese(Cheese newCheese)
+        {           
+            CheeseData.Add(newCheese);
             return Redirect("/Cheese");
         }
 
         public IActionResult Delete()
         {
-            ViewBag.cheeses = cheeses;
+            ViewBag.cheeses = CheeseData.GetAll();
+            ViewBag.Title = "Delete Cheeses";
 
             return View();
         }
 
         [HttpPost]
         [Route("/Cheese/DeleteSelected")]
-        public IActionResult DeleteSelected(string[] cheeseSelect)
+        public IActionResult DeleteSelected(int[] cheeseSelect)
         {
-
-            foreach  (Cheese cheesepiece in cheeses.ToList())         
+            foreach (int cheeseId in cheeseSelect)
             {
-                foreach (string cheeseName in cheeseSelect) 
-                {
-                    if (cheesepiece.Name == cheeseName)
-                    {
-                        cheeses.Remove(cheesepiece);
-                    }
-                }
+                CheeseData.Delete(cheeseId);
+
             }
-
-            ViewBag.cheeses = cheeses;           
-
+            ViewBag.cheeses = CheeseData.GetAll();           
             return Redirect("/Cheese");
         }
 
@@ -67,14 +60,14 @@ namespace CheeseMVC.Controllers
         [Route("/Cheese/DeleteAll")]
         public IActionResult DeleteAll(string[] cheeseSelect)
         {
-            List<Cheese> cheeseList = new List<Cheese>(cheeses);
+            List<Cheese> cheeseList = new List<Cheese>(CheeseData.GetAll());
 
             foreach (Cheese cheese in cheeseList)
             {
-                cheeses.Remove(cheese);
+                CheeseData.Delete(cheese.CheeseId);
             }
 
-            ViewBag.cheeses = cheeses;
+            ViewBag.cheeses = CheeseData.GetAll();
             return Redirect("/Cheese");
         }
     }

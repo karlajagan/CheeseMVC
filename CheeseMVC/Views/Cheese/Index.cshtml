@@ -1,7 +1,7 @@
 ﻿@{
 }
 
-<h1>My Cheese</h1>
+<h1>@ViewBag.Title</h1>
 
 @*<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
 <p><a asp-controller="Cheese" asp-action="Delete">Delete Cheese</a></p>*@
@@ -12,9 +12,18 @@
     <p>There are no cheeses in the list!</p>
 }
 
-<ul>
-    @foreach (Cheese cheese in ViewBag.cheeses)
-    {
-        <p>@cheese.Name  @cheese.Description</p>
-    }
-</ul>
+    <table style="width:100%">
+        <tr>
+        <th>Name</th>
+        <th>Description</th>
+        </tr>
+        
+        @foreach (Cheese cheese in ViewBag.cheeses)
+        {
+        <tr>
+        <td>@cheese.Name</td>
+        <td>@cheese.Description</td>
+        </tr>
+        }
+
+   </table>
