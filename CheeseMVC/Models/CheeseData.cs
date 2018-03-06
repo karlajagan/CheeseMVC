@@ -33,5 +33,17 @@ namespace CheeseMVC.Models
         {
             return cheeses.Single(x => x.CheeseId == id);
         }
+
+        // Update
+        public static void Update(Cheese cheeseToUpdate)
+        {
+            foreach (Cheese thischeese in cheeses.Where(x => x.CheeseId == cheeseToUpdate.CheeseId))
+            {
+                thischeese.Name = cheeseToUpdate.Name;
+                thischeese.Description = cheeseToUpdate.Description;
+            }
+        }
+
+
     }
 }

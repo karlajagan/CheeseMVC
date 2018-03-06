@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Edit Cheese NAME(id=ID)";
+}
+
+<h2>Edit Cheese @ViewBag.thisCheese.Name (id=@ViewBag.thisCheese.CheeseId)</h2>
+
+<form method="post">
+    <br />
+    <input name="name" value="@ViewBag.thisCheese.Name" type="text" />
+    <input name="description" value="@ViewBag.thisCheese.Description" type="text" />
+    <input type="hidden" value="@ViewBag.thisCheese.CheeseId" name="cheeseId" />
+    <input type="submit" value="Add Cheese" />
+</form>
