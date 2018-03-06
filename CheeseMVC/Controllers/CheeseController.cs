@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CheeseMVC.Models;
+using CheeseMVC.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,28 +16,41 @@ namespace CheeseMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            ViewBag.Title = "List of Cheeses";
-            ViewBag.cheeses = CheeseData.GetAll();
-            return View();
+            ViewBag.title = "List of Cheeses";
+            List<Cheese> cheeses = CheeseData.GetAll();
+            return View(cheeses);
         }
         public IActionResult Add()
         {
-            ViewBag.Title = "Add Cheese";
-            return View(); 
+            ViewBag.title = "Add Cheese";
+            AddCheeseViewModel addCheeseViewModel = new AddCheeseViewModel();
+            ViewBag.title = "Add Cheese";
+            return View(addCheeseViewModel); 
         }
 
         [HttpPost]
-        [Route("/Cheese/Add")]
-        public IActionResult NewCheese(Cheese newCheese)
-        {           
-            CheeseData.Add(newCheese);
-            return Redirect("/Cheese");
+        public IActionResult Add(AddCheeseViewModel addCheeseViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Cheese newCheese = new Cheese
+                {
+                    Name = addCheeseViewModel.Name,
+                    Description = addCheeseViewModel.Description
+                };
+
+                CheeseData.Add(newCheese);
+                ViewBag.title = "Add Cheese";
+                return Redirect("/Cheese");
+            }
+            return View(addCheeseViewModel);
+            
         }
 
         public IActionResult Delete()
         {
             ViewBag.cheeses = CheeseData.GetAll();
-            ViewBag.Title = "Delete Cheeses";
+            ViewBag.title = "Delete Cheeses";
 
             return View();
         }
@@ -71,6 +85,7 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Edit(int CheeseId)
         {
+            ViewBag.title = "Edit Cheese";
             ViewBag.thisCheese = CheeseData.GetById(CheeseId);
             return View();
         }
